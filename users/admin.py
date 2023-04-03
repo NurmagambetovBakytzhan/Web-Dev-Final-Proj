@@ -2,7 +2,6 @@ from django.contrib import admin
 from . import models
 
 
-# Register your models here.
 class CustomUserAdmin(admin.ModelAdmin):
     # The forms to add and change user
 
@@ -15,4 +14,5 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.CustomUser, CustomUserAdmin)
+# admin.site.register(models.CustomUser)
 admin.site.register(models.Profile)

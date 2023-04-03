@@ -1,7 +1,7 @@
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-
+# from movies.views import VideoPlayer
 from src import settings
 
 urlpatterns = [
@@ -9,6 +9,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('api/', include('src.api_urls')),
     path('__debug__/', include('debug_toolbar.urls')),
+    # path('video/<uuid:video_id>/', VideoPlayer, name='video_player'),
 
 ]
 

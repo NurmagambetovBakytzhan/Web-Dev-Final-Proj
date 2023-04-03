@@ -3,11 +3,19 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _  # Needed for translation and localisation
 from users import models as user_models
 
+
 # Create your models here.
-MOVIE_CHOICES = (
-    ('seasonal', 'Seasonal'),
-    ('single', 'Single')
-)
+class Category(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True)
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+
+        verbose_name = _('Category')
+        verbose_name_plural = _('Categories')
 
 
 class Movie(models.Model):
@@ -17,8 +25,8 @@ class Movie(models.Model):
 
     is_top = models.BooleanField(default=False, verbose_name=_('Is Top?'))
     age_limit = models.CharField(choices=user_models.AGE_CHOICES, max_length=10, verbose_name=_('Age Limit'))
-    type = models.CharField(choices=MOVIE_CHOICES, max_length=10, verbose_name=_('Type'))
-
+    # type = models.CharField(choices=MOVIE_CHOICES, max_length=10, verbose_name=_('Type'))
+    category = models.ForeignKey(Category, default='', on_delete=models.CASCADE, verbose_name=_('Category'))
     image = models.ImageField(upload_to='covers')
     video = models.ManyToManyField('Video')
 
