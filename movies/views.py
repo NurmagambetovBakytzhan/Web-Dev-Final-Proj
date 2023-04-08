@@ -15,6 +15,7 @@ class MovieImageViewSet(ModelViewSet):
 class MovieViewSet(ModelViewSet):
     serializer_class = serializers.MovieSerializer
     queryset = models.Movie.objects.all()
+
     permission_classes = (IsAuthenticated,)
 
 

@@ -8,14 +8,16 @@ class CreateUserSerializer(serializers.ModelSerializer):
         fields = ('email', 'password')
 
 
-# class VerifyUserSerializer(serializers.Serializer):
-#     session_id = serializers.UUIDField()
-#     code = serializers.CharField(max_length=4)
-#
+class VerifyUserSerializer(serializers.Serializer):
+    session_id = serializers.UUIDField()
+    code = serializers.CharField(max_length=4)
+
+
 #
 class CreateTokenSerializer(serializers.Serializer):
     password = serializers.CharField()
     email = serializers.EmailField()
+
 
 #
 class GetUserSerializer(serializers.Serializer):

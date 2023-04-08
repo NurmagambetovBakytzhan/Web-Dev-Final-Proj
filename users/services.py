@@ -1,8 +1,11 @@
 from typing import Protocol, OrderedDict
 
+from django.conf import settings
 from rest_framework_simplejwt import tokens
 
 from users import repos
+
+from django.core.mail import send_mail
 
 
 class UserServicesInterface(Protocol):
@@ -29,7 +32,12 @@ class UserServicesV1:
 
     @staticmethod
     def _send_letter_to_email(email: str) -> None:
-        print(f'send letter to {email}')
+        send_mail(
+            subject='vhjk',
+            message='hi',
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[email]
+        )
 
     def create_token(self, data: OrderedDict):
         user = self.user_repos.get_user(data=data)
