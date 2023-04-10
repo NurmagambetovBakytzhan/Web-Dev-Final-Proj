@@ -43,3 +43,10 @@ class UserViewSet(ViewSet):
         return Response({
             'email': access_token.user.email,
         })
+
+    def verify_user(self,request, *args, **kwargs):
+        serializer = serializers.VerifyUserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.user_services.verify_user(data=serializer.validated_data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+

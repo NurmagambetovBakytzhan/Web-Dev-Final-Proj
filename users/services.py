@@ -1,6 +1,7 @@
 from typing import Protocol, OrderedDict
 
 from django.conf import settings
+from django.core.cache import cache
 from rest_framework_simplejwt import tokens
 
 from users import repos
@@ -30,6 +31,31 @@ class UserServicesV1:
         user = self.user_repos.create_user(data=data)
         self._send_letter_to_email(email=user.email)
 
+    def create_token(self, data: OrderedDict):
+        user = self.user_repos.get_user(data=data)
+        access_token = tokens.AccessToken.for_user(user=user)
+        refresh_token = tokens.RefreshToken.for_user(user=user)
+
+        return {
+            'access_token': str(access_token),
+            'refresh_token': str(refresh_token)
+        }
+
+    def verify_user(self, data: OrderedDict) -> dict:
+        user_data = cache.get(data['session_id'])
+
+        if not user_data:
+            return
+
+        if data['code'] != user_data['code']:
+            return
+
+        user = self.user_repos.create_user(data={
+            'email': user_data['email'],
+            'password': user_data['password']
+        })
+        self._send_letter_to_email(email=user.email)
+
     @staticmethod
     def _send_letter_to_email(email: str) -> None:
         send_mail(
@@ -39,12 +65,6 @@ class UserServicesV1:
             recipient_list=[email]
         )
 
-    def create_token(self, data: OrderedDict):
-        user = self.user_repos.get_user(data=data)
-        access_token = tokens.AccessToken.for_user(user=user)
-        refresh_token = tokens.RefreshToken.for_user(user=user)
-
-        return {
-            'access': str(access_token),
-            'refresh': str(refresh_token)
-        }
+    @staticmethod
+    def _verify_email(data: OrderedDict):
+        pass

@@ -45,7 +45,10 @@ class Movie(models.Model):
 class Video(models.Model):
     title = models.CharField(max_length=100, verbose_name=_('Title'), unique=True)
     file = models.FileField(upload_to='movies')
-
+    # movie = models.ForeignKey(
+    #     to=Movie,
+    #     on_delete=models.CASCADE,
+    # )
     def __str__(self):
         return self.title
 

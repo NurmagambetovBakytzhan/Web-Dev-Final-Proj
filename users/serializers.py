@@ -13,7 +13,6 @@ class VerifyUserSerializer(serializers.Serializer):
     code = serializers.CharField(max_length=4)
 
 
-#
 class CreateTokenSerializer(serializers.Serializer):
     password = serializers.CharField()
     email = serializers.EmailField()
