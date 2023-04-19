@@ -1,0 +1,31 @@
+
+
+
+.wrapper{
+  background-color: #000;
+  display: flex;
+  height: 24px;
+  justify-content: space-between;
+  left: 0;
+  padding: 16px 3%;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 20;
+}
+
+button {
+  background-color: #e50914;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  /*padding: 10px;*/
+  width: 100%;
+  /*font-size: 16px;*/
+  cursor: pointer;
+  /*margin-top: 20px;*/
+}
+
+button:hover {
+  background-color: #d00f12;
+}

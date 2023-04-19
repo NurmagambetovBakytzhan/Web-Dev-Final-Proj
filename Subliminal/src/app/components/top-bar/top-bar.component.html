@@ -1,0 +1,15 @@
+<body>
+  <div class="wrapper">
+    <div *ngIf="authService.is_authenticated">
+      <button (click)="logout()"> LogOut</button>
+    </div>
+
+    <div *ngIf="!authService.is_authenticated">
+      <button (click)="sign_up_redirect()">Sign Up</button>
+
+    <!--  <app-login></app-login>-->
+    </div>
+
+  </div>
+
+</body>

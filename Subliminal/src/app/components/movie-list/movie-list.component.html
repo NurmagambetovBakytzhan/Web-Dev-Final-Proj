@@ -1,0 +1,21 @@
+<body>
+  <div class="wrapper">
+
+    <ng-container *ngIf="authService.is_authenticated">
+      <ul>
+        <li *ngFor="let movie of movies">
+
+          <button (click)="goToVideoDetails(movie.id)">
+            <h4>{{movie.title}}</h4>
+            <img src="{{movie.image}}" alt="" height=200px>
+          </button>
+        </li>
+      </ul>
+    </ng-container>
+
+
+  </div>
+
+</body>
+
+

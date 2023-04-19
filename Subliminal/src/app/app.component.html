@@ -1,0 +1,13 @@
+<!--<div *ngIf="!is_authenticated">-->
+<!--  <h1>Login form</h1>-->
+<!--  <p>Username: <input type="text" [(ngModel)]="email"></p>-->
+<!--  <p>Password: <input type="text" [(ngModel)]="password"></p>-->
+<!--  <button (click)="login()">Login</button>-->
+<!--  <button (click)="sign_up_redirect()">Sign up</button>-->
+<!--</div>-->
+
+<ng-container *ngIf="router.url == '/movies'">
+  <app-top-bar></app-top-bar>
+</ng-container>
+
+<router-outlet></router-outlet>

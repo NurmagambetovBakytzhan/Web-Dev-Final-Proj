@@ -1,3 +1,5 @@
+import random
+import uuid
 from typing import Protocol, OrderedDict
 
 from django.conf import settings
@@ -27,9 +29,12 @@ class UserServicesInterface(Protocol):
 class UserServicesV1:
     user_repos: repos.UserReposInterface = repos.UserReposV1()
 
-    def create_user(self, data: OrderedDict) -> None:
-        user = self.user_repos.create_user(data=data)
-        self._send_letter_to_email(email=user.email)
+    def create_user(self, data: OrderedDict) -> dict:
+        session_id = self._verify_email(data=data)
+
+        return {
+            'session_id': session_id,
+        }
 
     def create_token(self, data: OrderedDict):
         user = self.user_repos.get_user(data=data)
@@ -38,10 +43,10 @@ class UserServicesV1:
 
         return {
             'access_token': str(access_token),
-            'refresh_token': str(refresh_token)
+            'refresh_token': str(refresh_token),
         }
 
-    def verify_user(self, data: OrderedDict) -> dict:
+    def verify_user(self, data: OrderedDict) -> dict | None:
         user_data = cache.get(data['session_id'])
 
         if not user_data:
@@ -54,17 +59,35 @@ class UserServicesV1:
             'email': user_data['email'],
             'password': user_data['password']
         })
-        self._send_letter_to_email(email=user.email)
+        # self._send_letter_to_email(email=user.email)
+
+    def _verify_email(self, data: OrderedDict, is_exists: bool = False) -> str:
+        email = data['email']
+
+        if is_exists:
+            user = self.user_repos.get_user(data)
+            email = str(user.email)
+
+        code = self._generate_code()
+        session_id = self._generate_session_id()
+        cache.set(session_id, {'email': email, 'code': code, **data}, timeout=300)
+        self._send_letter_to_email(email, code)
+        return session_id
 
     @staticmethod
-    def _send_letter_to_email(email: str) -> None:
+    def _send_letter_to_email(email: str, code: str) -> None:
         send_mail(
-            subject='vhjk',
-            message='hi',
+            subject='Verification Code',
+            message=f'Here is your code -> {code}',
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[email]
         )
 
     @staticmethod
-    def _verify_email(data: OrderedDict):
-        pass
+    def _generate_code(length: int = 4) -> str:
+        numbers = [str(i) for i in range(10)]
+        return ''.join(random.choices(numbers, k=length))
+
+    @staticmethod
+    def _generate_session_id() -> str:
+        return str(uuid.uuid4())

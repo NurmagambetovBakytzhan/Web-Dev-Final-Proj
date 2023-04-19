@@ -13,7 +13,6 @@ class Category(models.Model):
         return self.name
 
     class Meta:
-
         verbose_name = _('Category')
         verbose_name_plural = _('Categories')
 
@@ -28,7 +27,7 @@ class Movie(models.Model):
     # type = models.CharField(choices=MOVIE_CHOICES, max_length=10, verbose_name=_('Type'))
     category = models.ForeignKey(Category, default='', on_delete=models.CASCADE, verbose_name=_('Category'))
     image = models.ImageField(upload_to='covers')
-    video = models.ManyToManyField('Video')
+    # video = models.ManyToManyField('Video')
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -45,10 +44,13 @@ class Movie(models.Model):
 class Video(models.Model):
     title = models.CharField(max_length=100, verbose_name=_('Title'), unique=True)
     file = models.FileField(upload_to='movies')
-    # movie = models.ForeignKey(
-    #     to=Movie,
-    #     on_delete=models.CASCADE,
-    # )
+    movie = models.ForeignKey(
+        to=Movie,
+        on_delete=models.CASCADE,
+        related_name='movie_video',
+        verbose_name=_('Movie')
+    )
+
     def __str__(self):
         return self.title
 

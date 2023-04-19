@@ -1,0 +1,22 @@
+<div class="container">
+  <div *ngIf="this.authService.is_authenticated">
+    <div *ngIf="movieDetails">
+      <h2>Videos</h2>
+      <ul>
+        <li *ngFor="let video of movieDetails.videos">
+          <video controls>
+            <source src="http://localhost:8000/{{video.file}}" type="video/mp4">
+          </video>
+
+        </li>
+      </ul>
+      <h2>Images</h2>
+      <ul>
+        <li *ngFor="let images of movieDetails.images">
+          <img src="http://localhost:8000/{{images.image}}" height="200px">
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>
