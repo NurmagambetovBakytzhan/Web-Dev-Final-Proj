@@ -7,11 +7,12 @@ import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import {FormsModule} from "@angular/forms";
 import { MovieListComponent } from './components/movie-list/movie-list.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {RouterModule} from "@angular/router";
 import {VerifyRegistrationComponent} from "./components/verify-registration/verify-registration.component";
 import { MovieDetailsComponent } from './components/movie-details/movie-details.component';
 import { TopBarComponent } from './components/top-bar/top-bar.component';
+import { AuthInterceptor } from './AuthInterceptor';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,13 @@ import { TopBarComponent } from './components/top-bar/top-bar.component';
 
     ])
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

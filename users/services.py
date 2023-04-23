@@ -57,7 +57,8 @@ class UserServicesV1:
 
         user = self.user_repos.create_user(data={
             'email': user_data['email'],
-            'password': user_data['password']
+            'password': user_data['password'],
+            'user_type': user_data['user_type']
         })
         # self._send_letter_to_email(email=user.email)
 

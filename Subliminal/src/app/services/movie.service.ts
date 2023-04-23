@@ -21,9 +21,7 @@ export class MovieService {
   }
 
   getMovies(): Observable<IMovie[]> {
-    const token = localStorage.getItem('access_token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<IMovie[]>(`${this.URL}/movies/`, { headers });
+    return this.http.get<IMovie[]>(`${this.URL}/movies/`);
   }
 
 

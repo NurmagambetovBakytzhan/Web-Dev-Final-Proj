@@ -38,6 +38,9 @@ export class LoginComponent implements OnInit{
     if(this.authService.is_authenticated){
       this.router.navigate(['/movies'])
     }
+    else {
+      this.errorMessage=""
+    }
   }
 
 

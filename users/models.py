@@ -5,6 +5,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from users import choises
+
 # Create your models here.
 AGE_CHOICES = (
     ('All', 'All'),
@@ -14,7 +16,7 @@ AGE_CHOICES = (
 
 class CustomUserManager(BaseUserManager):
 
-    def create_user(self, email, password=None):
+    def create_user(self, email, password=None, user_type: str = None):
         """
         Creates and saves a User with the given email, date of
         birth and password.
@@ -24,7 +26,8 @@ class CustomUserManager(BaseUserManager):
 
         user = self.model(
             email=self.normalize_email(email),
-            is_active=True
+            is_active=True,
+            user_type=user_type
         )
 
         user.set_password(password)
@@ -45,10 +48,15 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractUser):
-    username = None
+    username = models.CharField(max_length=50, blank=True, null=True)
     id = models.UUIDField(default=uuid.uuid4, primary_key=True)
     email = models.EmailField(verbose_name="Email", unique=True)
-
+    user_type = models.CharField(
+        max_length=15,
+        choices=choises.UserTypeChoices.choices,
+        blank=True,
+        null=True,
+    )
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     profiles = models.ManyToManyField('Profile', blank=True)

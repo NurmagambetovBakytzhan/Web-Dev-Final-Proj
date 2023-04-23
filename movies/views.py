@@ -38,7 +38,6 @@ class VideoViewSet(ModelViewSet):
     serializer_class = serializers.VideoSerializer
     queryset = models.Video.objects.all()
 
-
 # def VideoPlayer(request, video_id):
 #     video = Video.objects.get(id=video_id)
 #     context = {'video': video}

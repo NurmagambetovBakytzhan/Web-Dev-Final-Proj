@@ -5,7 +5,7 @@ from . import models
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CustomUser
-        fields = ('email', 'password')
+        fields = ('email', 'password', 'user_type')
 
 
 class VerifyUserSerializer(serializers.Serializer):

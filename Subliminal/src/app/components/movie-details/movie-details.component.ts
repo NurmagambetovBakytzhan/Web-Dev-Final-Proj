@@ -18,15 +18,7 @@ export class MovieDetailsComponent implements OnInit{
     const movieId = this.route.snapshot.paramMap.get('id');
     const url = `http://127.0.0.1:8000/api/v1/movies/${movieId}/details`;
 
-    const token = localStorage.getItem('access_token');
-    if(token){
-      this.authService.is_authenticated = true;
-    }
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    });
-    this.http.get<MovieDetails>(url, { headers }).subscribe(
+    this.http.get<MovieDetails>(url).subscribe(
       response => {
         this.movieDetails = response;
       },

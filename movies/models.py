@@ -23,10 +23,10 @@ class Movie(models.Model):
     description = models.TextField(blank=True, null=True, verbose_name=_('Description'))
 
     is_top = models.BooleanField(default=False, verbose_name=_('Is Top?'))
-    age_limit = models.CharField(choices=user_models.AGE_CHOICES, max_length=10, verbose_name=_('Age Limit'))
+    age_limit = models.CharField(choices=user_models.AGE_CHOICES, max_length=10, verbose_name=_('Age Limit'), null=True)
     # type = models.CharField(choices=MOVIE_CHOICES, max_length=10, verbose_name=_('Type'))
     category = models.ForeignKey(Category, default='', on_delete=models.CASCADE, verbose_name=_('Category'))
-    image = models.ImageField(upload_to='covers')
+    image = models.ImageField(upload_to='covers', null=True)
     # video = models.ManyToManyField('Video')
 
     created_at = models.DateTimeField(auto_now_add=True)
