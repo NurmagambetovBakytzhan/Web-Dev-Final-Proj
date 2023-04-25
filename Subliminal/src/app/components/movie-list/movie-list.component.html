@@ -1,21 +1,16 @@
-<body>
-  <div class="wrapper">
+<div class="wrapper">
+  <ng-container *ngIf="authService.is_authenticated">
+    <div *ngIf="userService.user?.user_type == 'Author'">
+      <h1>Author</h1>
+    </div>
 
-    <ng-container *ngIf="authService.is_authenticated">
-      <ul>
-        <li *ngFor="let movie of movies">
-
-          <button (click)="goToVideoDetails(movie.id)">
-            <h4>{{movie.title}}</h4>
-            <img src="{{movie.image}}" alt="" height=200px>
-          </button>
-        </li>
-      </ul>
-    </ng-container>
-
-
-  </div>
-
-</body>
-
-
+    <ul>
+      <li *ngFor="let movie of movies">
+        <button (click)="goToVideoDetails(movie.id)">
+          <h4>{{movie.title}}</h4>
+          <img src="{{movie.image}}" alt="" height=100px>
+        </button>
+      </li>
+    </ul>
+  </ng-container>
+</div>

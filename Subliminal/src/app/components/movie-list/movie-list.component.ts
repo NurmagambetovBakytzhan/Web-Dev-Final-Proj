@@ -5,6 +5,7 @@ import {catchError, of} from "rxjs";
 import {AuthToken} from "../../models/authToken";
 import {Router} from "@angular/router";
 import {AuthService} from "../../services/auth.service";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-movie-list',
@@ -14,7 +15,7 @@ import {AuthService} from "../../services/auth.service";
 export class MovieListComponent implements OnInit{
   movies: IMovie[] | undefined;
 
-  constructor(private movieService: MovieService,private router: Router, public authService: AuthService) {}
+  constructor(private movieService: MovieService,private router: Router, public authService: AuthService, public userService: UserService) {}
 
   ngOnInit() {
     const token: string | null = localStorage.getItem('access_token');

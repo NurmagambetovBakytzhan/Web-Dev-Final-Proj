@@ -1,3 +1,5 @@
+import {Category} from "./category";
+
 export interface IMovie{
   id: string;
   title: string;
@@ -7,8 +9,8 @@ export interface IMovie{
   age_limit: string;
 
   image: string;
-  
-  category: string;
+
+  categories: Category[];
 
 }
 

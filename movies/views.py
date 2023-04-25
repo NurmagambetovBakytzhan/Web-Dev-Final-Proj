@@ -9,6 +9,11 @@ from . import serializers, models
 from .models import Video, Movie
 
 
+class CategoryViewSet(ModelViewSet):
+    serializer_class = serializers.CategorySerializer
+    queryset = models.Category.objects.all()
+
+
 class MovieImageViewSet(ModelViewSet):
     serializer_class = serializers.MovieImageSerializer
     queryset = models.MovieImage.objects.all()

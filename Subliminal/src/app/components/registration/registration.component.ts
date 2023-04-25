@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {SessionId} from "../../models/sessionId";
 import {Router} from "@angular/router";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-registration',
@@ -15,8 +16,9 @@ export class RegistrationComponent {
 
   session_id: string | undefined;
 
+  isAuthor: boolean = false;
 
-  constructor(private http: HttpClient, public router: Router) {
+  constructor(private http: HttpClient, public router: Router, private authService: AuthService) {
   }
 
   signup(): void {
@@ -25,8 +27,12 @@ export class RegistrationComponent {
       return;
     }
 
-    const body = {email: this.email, password: this.password};
-    this.http.post<SessionId>('http://127.0.0.1:8000/api/v1/users/create/', body).subscribe(
+    const body = {
+      email: this.email,
+      password: this.password,
+      user_type: this.isAuthor ? 'Author' : 'Viewer'
+    };
+    this.http.post<SessionId>(`${this.authService.URL}/users/create/`, body).subscribe(
       response => {
         this.session_id = response.session_id;
         localStorage.setItem('session_id', response.session_id);

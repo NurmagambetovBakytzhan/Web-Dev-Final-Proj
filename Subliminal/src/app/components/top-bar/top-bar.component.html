@@ -1,15 +1,14 @@
-<body>
-  <div class="wrapper">
-    <div *ngIf="authService.is_authenticated">
-      <button (click)="logout()"> LogOut</button>
+<div class="wrapper">
+  <div *ngIf="authService.is_authenticated">
+    <div>
+      <button (click)="logout()">Log Out</button>
     </div>
-
-    <div *ngIf="!authService.is_authenticated">
-      <button (click)="sign_up_redirect()">Sign Up</button>
-
-    <!--  <app-login></app-login>-->
+    <div class="user-data">
+      <h4>{{this.userService.user?.email}}</h4>
     </div>
-
   </div>
 
-</body>
+  <div *ngIf="userService.user?.user_type == 'Author'">
+    <button (click)="create_movie_redirect()">Create Movie</button>
+  </div>
+</div>

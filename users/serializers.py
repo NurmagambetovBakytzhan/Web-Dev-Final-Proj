@@ -21,3 +21,9 @@ class CreateTokenSerializer(serializers.Serializer):
 #
 class GetUserSerializer(serializers.Serializer):
     access_token = serializers.CharField()
+
+
+class UserInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.CustomUser
+        fields = ('id', 'first_name', 'last_name', 'email', 'user_type', 'is_superuser')

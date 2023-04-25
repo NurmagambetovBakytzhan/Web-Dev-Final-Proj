@@ -15,14 +15,11 @@ class MovieVideoInline(admin.TabularInline):
 
 
 class MovieAdmin(admin.ModelAdmin):
-    list_display = ('title', 'is_top', 'category', 'age_limit')  # displaying on a page like a mini table
-    list_filter = ('is_top', 'category', 'age_limit')
-    list_editable = ('is_top', 'category', 'age_limit')  # opportunity to change without entering inside
+    list_display = ('title', 'is_top', 'age_limit')  # displaying on a page like a mini table
+    list_filter = ('is_top', 'categories__name', 'age_limit')
+    list_editable = ('is_top', 'age_limit')  # opportunity to change without entering inside
     search_fields = ('title', 'description')
     inlines = (MovieImageInline, MovieVideoInline)
-
-
-#   inlines =
 
 
 admin.site.register(models.Movie, MovieAdmin)

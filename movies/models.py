@@ -2,6 +2,7 @@ import uuid
 from django.db import models
 from django.utils.translation import gettext_lazy as _  # Needed for translation and localisation
 from users import models as user_models
+from users.models import CustomUser
 
 
 # Create your models here.
@@ -25,9 +26,16 @@ class Movie(models.Model):
     is_top = models.BooleanField(default=False, verbose_name=_('Is Top?'))
     age_limit = models.CharField(choices=user_models.AGE_CHOICES, max_length=10, verbose_name=_('Age Limit'), null=True)
     # type = models.CharField(choices=MOVIE_CHOICES, max_length=10, verbose_name=_('Type'))
-    category = models.ForeignKey(Category, default='', on_delete=models.CASCADE, verbose_name=_('Category'))
+    # category = models.ForeignKey(Category, default='', on_delete=models.CASCADE, verbose_name=_('Category'))
+    categories = models.ManyToManyField(Category, verbose_name=_('Categories'))
     image = models.ImageField(upload_to='covers', null=True)
     # video = models.ManyToManyField('Video')
+    author = models.ForeignKey(
+        to=CustomUser,
+        on_delete=models.CASCADE,
+        related_name='movies',
+        null=False,
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

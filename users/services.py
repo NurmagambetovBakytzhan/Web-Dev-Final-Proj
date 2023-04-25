@@ -3,10 +3,11 @@ import uuid
 from typing import Protocol, OrderedDict
 
 from django.conf import settings
+from django.contrib.auth.hashers import check_password
 from django.core.cache import cache
 from rest_framework_simplejwt import tokens
 
-from users import repos
+from users import repos, models
 
 from django.core.mail import send_mail
 
@@ -25,9 +26,17 @@ class UserServicesInterface(Protocol):
     def verify_token(self, data: OrderedDict) -> dict:
         ...
 
+    def get_user(self, data: OrderedDict) -> dict:
+        ...
+
 
 class UserServicesV1:
     user_repos: repos.UserReposInterface = repos.UserReposV1()
+
+    def get_user(self, data: OrderedDict) -> models.CustomUser:
+        payload = tokens.AccessToken(data['access_token']).payload
+        user_id = payload.get('user_id')
+        return self.user_repos.get_user(data={'id': user_id})
 
     def create_user(self, data: OrderedDict) -> dict:
         session_id = self._verify_email(data=data)
@@ -37,14 +46,22 @@ class UserServicesV1:
         }
 
     def create_token(self, data: OrderedDict):
-        user = self.user_repos.get_user(data=data)
-        access_token = tokens.AccessToken.for_user(user=user)
-        refresh_token = tokens.RefreshToken.for_user(user=user)
+        user = self.user_repos.get_user(data={
+            'email': data['email']
+        })
 
-        return {
-            'access_token': str(access_token),
-            'refresh_token': str(refresh_token),
-        }
+        if check_password(password=data['password'], encoded=user.password):
+
+            access_token = tokens.AccessToken.for_user(user=user)
+            refresh_token = tokens.RefreshToken.for_user(user=user)
+
+            return {
+                'access_token': str(access_token),
+                'refresh_token': str(refresh_token),
+            }
+
+        else:
+            return {"Response": "Wrong auth credentials"}
 
     def verify_user(self, data: OrderedDict) -> dict | None:
         user_data = cache.get(data['session_id'])

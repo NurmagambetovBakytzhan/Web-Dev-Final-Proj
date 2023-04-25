@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {MovieDetails} from "../../models/movieDetails";
 import {AuthService} from "../../services/auth.service";
+import {UserService} from "../../services/user.service";
+import {MovieService} from "../../services/movie.service";
 
 @Component({
   selector: 'app-movie-details',
@@ -12,11 +14,15 @@ import {AuthService} from "../../services/auth.service";
 export class MovieDetailsComponent implements OnInit{
   movieDetails: MovieDetails | undefined;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient, public authService: AuthService) {}
-
+  constructor(public route: ActivatedRoute,
+              private http: HttpClient,
+              public authService: AuthService,
+              public userService: UserService,
+              public movieService: MovieService,
+              public router: Router) {}
+  movieId = this.route.snapshot.paramMap.get('id');
   ngOnInit() {
-    const movieId = this.route.snapshot.paramMap.get('id');
-    const url = `http://127.0.0.1:8000/api/v1/movies/${movieId}/details`;
+    const url = `${this.authService.URL}/movies/${this.movieId}/details`;
 
     this.http.get<MovieDetails>(url).subscribe(
       response => {
@@ -26,5 +32,14 @@ export class MovieDetailsComponent implements OnInit{
         console.log(error)
       }
     );
+  }
+
+  toChange(){
+    this.router.navigate(['/movies', this.movieId,'change']);
+  }
+
+  deleteMovie(){
+    this.movieService.deleteMovie(this.movieId)
+    this.router.navigate(['/movies'])
   }
 }

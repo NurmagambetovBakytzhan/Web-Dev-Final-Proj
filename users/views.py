@@ -13,8 +13,9 @@ from . import serializers, services, models
 class UserViewSet(ViewSet):
     user_services: services.UserServicesInterface = services.UserServicesV1()
     authentication_classes = [JWTAuthentication]
+
     # permission_classes = (IsAuthenticated,)
-    
+
     def create_user(self, request, *args, **kwargs):
         serializer = serializers.CreateUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)  # to check whether it's true
@@ -49,10 +50,6 @@ class UserViewSet(ViewSet):
         serializer = serializers.GetUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        access_token = Token.objects.get(key=serializer.validated_data['access_token'])
-        refresh_token = Token.objects.get(key=serializer.validated_data['refresh'])
-        user_id = access_token['user_id']
-        user = models.CustomUser.objects.get(id=user_id)
-        return Response({
-            "user": user
-        })
+        user = self.user_services.get_user(data=serializer.data)
+        user_info = serializers.UserInfoSerializer(user)
+        return Response(user_info.data)

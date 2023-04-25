@@ -19,10 +19,6 @@ class UserReposV1:
     def create_user(self, data: OrderedDict) -> models.CustomUser:
         return self.model.objects.create_user(**data)
 
-    def get_user(self, data: OrderedDict):
-        user = get_object_or_404(self.model, email=data['email'])
-        if not user.check_password(data['password']):
-            raise self.model.DoesNotExist
-
-        return user
-
+    @staticmethod
+    def get_user(data: OrderedDict) -> models.CustomUser:
+        return get_object_or_404(models.CustomUser, **data)

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import { Router } from '@angular/router';
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-verify-registration',
@@ -11,7 +12,7 @@ export class VerifyRegistrationComponent {
   code: string | undefined;
   session_id: string | null = localStorage.getItem('session_id');
 
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private router: Router, private http: HttpClient, private authService:AuthService) {}
 
   verify_registration():void{
     if (!this.session_id) {
@@ -20,7 +21,7 @@ export class VerifyRegistrationComponent {
     }
 
     const body = { code: this.code, session_id: this.session_id };
-    this.http.post('http://127.0.0.1:8000/api/v1/users/verify/', body).subscribe(
+    this.http.post(`${this.authService.URL}/users/verify/`, body).subscribe(
       response => {
         console.log(response);
         this.router.navigateByUrl('/login', { state: { message: 'User created successfully' } });

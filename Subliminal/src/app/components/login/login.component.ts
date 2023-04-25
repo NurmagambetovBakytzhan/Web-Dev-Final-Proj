@@ -3,6 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {AuthToken} from "../../models/authToken";
 import {Router} from "@angular/router";
 import {AuthService} from "../../services/auth.service";
+import {User} from "../../models/user";
+import {UserService} from "../../services/user.service";
 
 
 @Component({
@@ -14,22 +16,29 @@ export class LoginComponent implements OnInit{
   email: string | undefined;
   password: string | undefined;
 
+  errorMessage!: string;
 
-  errorMessage: string | undefined;
-
-  constructor(private http: HttpClient, public router: Router, public authService: AuthService) {
+  constructor(private http: HttpClient,
+              public router: Router,
+              public authService: AuthService,
+              public userService: UserService) {
   }
 
   onSubmit() {
-    this.http.post<AuthToken>('http://127.0.0.1:8000/api/v1/users/token/', {email: this.email, password: this.password})
+    this.http.post<AuthToken>(`${this.authService.URL}/users/token/`, {email: this.email, password: this.password})
       .subscribe(response => {
+
         localStorage.setItem('access_token', response.access_token);
         localStorage.setItem('refresh_token', response.refresh_token);
         this.authService.is_authenticated = true;
-        this.router.navigate(['/movies'])
+
+        this.userService.loadUser()
+
       },
         error => {
-          this.errorMessage = "Wrong email or password!"
+          if(error.status=401){
+            this.errorMessage = "Wrong email or password!"
+          }
         }
       );
   }

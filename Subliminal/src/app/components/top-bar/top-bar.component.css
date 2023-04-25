@@ -1,31 +1,25 @@
-
-
-
-.wrapper{
-  background-color: #000;
+.wrapper {
   display: flex;
-  height: 24px;
   justify-content: space-between;
-  left: 0;
-  padding: 16px 3%;
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 20;
+  align-items: center;
+  padding: 10px;
+  background-color: black;
+  color: white;
+}
+
+.user-data {
+  margin-left: 10px;
 }
 
 button {
   background-color: #e50914;
   color: #fff;
   border: none;
-  border-radius: 5px;
-  /*padding: 10px;*/
-  width: 100%;
-  /*font-size: 16px;*/
+  border-radius: 0.3rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 0.8rem 1.2rem;
   cursor: pointer;
-  /*margin-top: 20px;*/
-}
-
-button:hover {
-  background-color: #d00f12;
+  transition: background-color 0.2s ease;
+  height: 50%;
 }
