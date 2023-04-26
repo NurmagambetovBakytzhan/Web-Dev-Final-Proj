@@ -3,9 +3,7 @@ import {IMovie} from "./movie";
 export interface MovieDetails{
   movie: IMovie,
   videos:Video[],
-  images:{
-    image:string;
-  }[],
+  images:Image[],
 }
 
 export interface Video{

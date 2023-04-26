@@ -1,8 +1,5 @@
 <div class="wrapper">
   <ng-container *ngIf="authService.is_authenticated">
-    <div *ngIf="userService.user?.user_type == 'Author'">
-      <h1>Author</h1>
-    </div>
 
     <ul>
       <li *ngFor="let movie of movies">

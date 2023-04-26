@@ -1,10 +1,12 @@
+<body>
 <div class="wrapper">
   <div *ngIf="authService.is_authenticated">
     <div>
       <button (click)="logout()">Log Out</button>
     </div>
     <div class="user-data">
-      <h4>{{this.userService.user?.email}}</h4>
+      <h4>{{this.userService.user?.email}} </h4>
+      <h5>{{this.userService.user?.user_type}}</h5>
     </div>
   </div>
 
@@ -12,3 +14,7 @@
     <button (click)="create_movie_redirect()">Create Movie</button>
   </div>
 </div>
+</body>
+
+
+

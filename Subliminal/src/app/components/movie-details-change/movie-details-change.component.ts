@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {Category} from "../../models/category";
 import {MovieService} from "../../services/movie.service";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-movie-details-change',
@@ -17,7 +18,15 @@ export class MovieDetailsChangeComponent implements OnInit {
   categories: Category[] | undefined;
   updateSuccessMessage: string | undefined;
   updateErrorMessage: string | undefined;
-  constructor(private authService: AuthService, public router: Router, private route: ActivatedRoute, private http: HttpClient, private movieService: MovieService) {
+
+  formUpdateMovie !: FormGroup;
+
+  constructor(private authService: AuthService,
+              public router: Router,
+              private route: ActivatedRoute,
+              private formBuilder: FormBuilder,
+              private http: HttpClient,
+              private movieService: MovieService,) {
   }
 
   movieId = this.route.snapshot.paramMap.get('id');
@@ -43,59 +52,37 @@ export class MovieDetailsChangeComponent implements OnInit {
       }
     )
 
+    this.formUpdateMovie = this.formBuilder.group({
+      title: "",
+      description: "",
+      age_choises: "",
+      image: null,
+      category: "",
+    });
+
   }
+
 
   onSubmit() {
     const formData = new FormData();
-    // @ts-ignore
-    formData.append('title', this.movieDetails.movie.title);
-    // @ts-ignore
-    formData.append('description', this.movieDetails.movie.description);
-    // @ts-ignore
-    formData.append('is_top', this.movieDetails.movie.is_top);
-    // @ts-ignore
-    formData.append('categories', this.movieDetails.movie.categories.join(','));
 
-    const coverImage = document.getElementById('coverImage') as HTMLInputElement;
-    // @ts-ignore
-    if(coverImage.files.length > 0){
-      // @ts-ignore
-      formData.append('cover_image',coverImage.files[0]);
-    }
+    formData.append('title', this.formUpdateMovie.value.title);
+    formData.append('description', this.formUpdateMovie.value.description);
+    formData.append('image', this.formUpdateMovie.value.image);
+    formData.append('category', this.formUpdateMovie.value.category);
 
-    // @ts-ignore
-    this.movieService.updateMovie(this.movieDetails.movie.id, formData).subscribe(
-      response=>{
-        console.log("Success!")
-      },
-      error =>{
-        console.log("Error occured")
-      }
-    );
-  }
-  updateMovie() {
-    // @ts-ignore
-    this.movieService.updateMovie(this.movieDetails.movie).subscribe(
-      () => {
-        this.updateSuccessMessage = 'Movie successfully updated!';
-        this.updateErrorMessage = '';
-      },
-      (error) => {
-        this.updateSuccessMessage = '';
-        this.updateErrorMessage = `Error updating movie: ${error.message}`;
-      }
-    );
+    this.movieService.updateMovie(this.movieId,formData).subscribe(()=>{
+      this.router.navigate(['/movies', this.movieId])
+    })
   }
 
-  // @ts-ignore
-  onCoverImageChange(event) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      // @ts-ignore
-      this.movieDetails.movie.cover_image = reader.result.toString();
+  onCoverImageSelect(event: any) {
+    const fileInput = event.target;
+    if (fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      this.formUpdateMovie.patchValue({image: file})
+      // this.formMovie.controls['cover_image'].setValue(file);
     }
-    reader.readAsDataURL(file);
   }
 
 }

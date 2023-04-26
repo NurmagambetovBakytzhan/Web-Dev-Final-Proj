@@ -28,4 +28,4 @@ class VideoSerializer(serializers.ModelSerializer):
 class MovieImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.MovieImage
-        fields = ('image', 'movie_id')
+        fields = ('file', 'movie')

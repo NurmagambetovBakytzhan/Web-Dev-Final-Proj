@@ -71,7 +71,7 @@ class MovieImage(models.Model):
         related_name='movie_images',
         verbose_name=_('Movie')
     )
-    image = models.ImageField(upload_to='movie-images/%Y/%m/%d/', verbose_name=_('Image'))
+    file = models.ImageField(upload_to='movie-images/%Y/%m/%d/', verbose_name=_('Image'))
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

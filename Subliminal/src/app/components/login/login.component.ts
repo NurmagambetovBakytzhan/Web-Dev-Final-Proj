@@ -31,7 +31,9 @@ export class LoginComponent implements OnInit{
         localStorage.setItem('access_token', response.access_token);
         localStorage.setItem('refresh_token', response.refresh_token);
         this.authService.is_authenticated = true;
-
+        if(localStorage.getItem('access_token')){
+          this.router.navigate(['/movies'])
+        }
         this.userService.loadUser()
 
       },

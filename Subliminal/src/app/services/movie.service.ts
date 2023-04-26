@@ -26,7 +26,7 @@ export class MovieService {
     return this.http.get<IMovie[]>(`${this.authService.URL}/movies/`);
   }
 
-  updateMovie(id: string, formData: FormData): Observable<IMovie> {
+  updateMovie(id: string | null, formData: FormData): Observable<IMovie> {
     const url = `${this.authService.URL}/movies/${id}/`;
     return this.http.put<IMovie>(url, formData);
   }
@@ -42,6 +42,16 @@ export class MovieService {
       ()=>console.log('Movie deleted'),
       error => console.log(error)
     )
+  }
+
+  createVideos(formData: FormData){
+    const url = `${this.authService.URL}/videos/`
+    return this.http.post(url,formData)
+  }
+
+  createImage(formData: FormData){
+    const url = `${this.authService.URL}/movie-images/`
+    return this.http.post(url, formData)
   }
 
 

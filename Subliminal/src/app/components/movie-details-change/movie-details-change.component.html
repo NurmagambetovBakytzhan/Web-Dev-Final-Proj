@@ -1,33 +1,25 @@
 <body>
 
-  <div *ngIf="movieDetails" class="movie-itself">
+  <div *ngIf="movieDetails" class="change-form">
 
-    <form (ngSubmit)="onSubmit()">
+    <form [formGroup]="formUpdateMovie" (submit)="onSubmit()">
 
       <label for="title">Title</label>
-      <input type="text" id="title" [(ngModel)]="movieDetails.movie.title" name="title">
+      <input type="text" id="title" formControlName="title">
 
       <label for="description">Description</label>
-      <textarea id="description" [(ngModel)]="movieDetails.movie.description" name="description"></textarea>
-
-      <label for="isTop">Is Top?</label>
-      <input type="checkbox" id="isTop" [(ngModel)]="movieDetails.movie.is_top" name="isTop">
+      <input id="description" type="text" formControlName="description">
 
       <label for="category">Category</label>
-      <select id="category" [(ngModel)]="movieDetails.movie.category" name="category">
-
-        <option *ngFor="let category of categories" [value]="category.name">{{category.name}}</option>
+      <select id="category" formControlName="category">
+        <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
       </select>
 
-      <label for="coverImage">Cover Image</label>
-      <input type="file" id="coverImage" (change)="onCoverImageChange($event)" name="coverImage">
-      <img [src]="movieDetails.movie.image" alt="Cover Image">
+      <label for="image">Cover Image</label>
+      <input id="image" name="image" type="file" (change)="onCoverImageSelect($event)">
 
       <button type="submit">Update</button>
     </form>
-
-    <div *ngIf="updateSuccessMessage">Movie successfully updated!</div>
-    <div *ngIf="updateErrorMessage">{{ updateErrorMessage }}</div>
 
 
   </div>
