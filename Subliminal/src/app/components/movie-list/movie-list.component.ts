@@ -15,7 +15,10 @@ import {UserService} from "../../services/user.service";
 export class MovieListComponent implements OnInit{
   movies: IMovie[] | undefined;
 
-  constructor(private movieService: MovieService,private router: Router, public authService: AuthService, public userService: UserService) {}
+  constructor(private movieService: MovieService
+              ,private router: Router,
+              public authService: AuthService,
+              public userService: UserService) {}
 
   ngOnInit() {
     const token: string | null = localStorage.getItem('access_token');

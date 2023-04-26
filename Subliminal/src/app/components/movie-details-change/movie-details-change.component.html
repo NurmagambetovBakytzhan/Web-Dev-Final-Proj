@@ -14,7 +14,7 @@
       <input type="checkbox" id="isTop" [(ngModel)]="movieDetails.movie.is_top" name="isTop">
 
       <label for="category">Category</label>
-      <select id="category" [(ngModel)]="movieDetails.movie.categories" name="category" multiple>
+      <select id="category" [(ngModel)]="movieDetails.movie.category" name="category">
 
         <option *ngFor="let category of categories" [value]="category.name">{{category.name}}</option>
       </select>

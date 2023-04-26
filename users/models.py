@@ -15,7 +15,6 @@ AGE_CHOICES = (
 
 
 class CustomUserManager(BaseUserManager):
-
     def create_user(self, email, password=None, user_type: str = None):
         """
         Creates and saves a User with the given email, date of
@@ -33,6 +32,7 @@ class CustomUserManager(BaseUserManager):
         user.set_password(password)
         user.save()
         return user
+
 
     def create_superuser(self, email, password=None):
         """

@@ -96,7 +96,7 @@ class UserServicesV1:
     def _send_letter_to_email(email: str, code: str) -> None:
         send_mail(
             subject='Verification Code',
-            message=f'Here is your code -> {code}',
+            message=f'Welcome to Subliminal! Here is your authentication code -> {code}',
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[email]
         )

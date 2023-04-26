@@ -10,7 +10,7 @@ export interface IMovie{
 
   image: string;
 
-  categories: Category[];
+  category: string;
 
 }
 

@@ -1,22 +1,36 @@
+<body>
+
 <form [formGroup]="formMovie" (submit)="onSubmit()">
-  <label for="title">Title:</label>
-  <input formControlName="title" id="title" name="title" type="text" required>
+  <div class="login-wrapper-background">
+    <img src="https://assets.nflxext.com/ffe/siteui/vlv3/61e79073-50cf-4f7b-9a23-73290e6f7dca/a56e50a8-04b1-4b50-9175-9f55d1c68d28/KZ-ru-20230410-popsignuptwoweeks-perspective_alpha_website_large.jpg" alt="">
+  </div>
 
-  <label for="age_choises">Age:</label>
-  <select formControlName="age_choises" id="age_choises" name="age">
-    <option value="kids">Kids</option>
-    <option value="adults">Adults</option>
-  </select>
+  <div class="creationform">
+    <label for="title">Title:</label>
+    <input formControlName="title" id="title" name="title" type="text" required>
 
-  <select formControlName="categories" id="categories" name="categories" multiple>
-    <option *ngFor="let category of categories" [value]="category.name">{{category.name}}</option>
-  </select>
+    <label for="age_choises">Age:</label>
+    <select formControlName="age_choises" id="age_choises" name="age">
+      <option value="kids">Kids</option>
+      <option value="adults">Adults</option>
+    </select>
 
-  <label for="description">Description:</label>
-  <input formControlName="description" id="description" name="description" type="text" required>
+    <label for="category">Category:</label>
+    <select formControlName="category" id="category" name="category">
+      <option *ngFor="let category of categories_all" [value]="category.id">{{category.name}}</option>
+    </select>
 
-  <label for="cover_image">Cover Image</label>
-  <input formControlName="cover_image" id="cover_image" name="cover_image" type="file" (change)="onCoverImageSelect($event)" required>
+    <label for="description">Description:</label>
+    <input formControlName="description" id="description" name="description" type="text" required>
 
-  <button type="submit">Create</button>
+    <label for="image">Cover Image</label>
+    <input id="image" name="image" type="file" (change)="onCoverImageSelect($event)" required>
+
+    <button type="submit">Create</button>
+  </div>
+
 </form>
+
+</body>
+
+
