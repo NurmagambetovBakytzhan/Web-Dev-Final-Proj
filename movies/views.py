@@ -6,7 +6,11 @@ from rest_framework.viewsets import ModelViewSet
 
 # Create your views here.
 from . import serializers, models
+
+from . import permissions
+
 from .models import Video, Movie
+from .permissions import IsAdminOrReadOnly
 
 
 class CategoryViewSet(ModelViewSet):
@@ -19,11 +23,13 @@ class MovieImageViewSet(ModelViewSet):
     queryset = models.MovieImage.objects.all()
 
 
+
+
 class MovieViewSet(ModelViewSet):
     serializer_class = serializers.MovieSerializer
     queryset = models.Movie.objects.all()
 
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [IsAdminOrReadOnly,]
 
     @action(detail=True, methods=['GET'])
     def details(self, request, *args, **kwargs):
@@ -43,7 +49,3 @@ class VideoViewSet(ModelViewSet):
     serializer_class = serializers.VideoSerializer
     queryset = models.Video.objects.all()
 
-# def VideoPlayer(request, video_id):
-#     video = Video.objects.get(id=video_id)
-#     context = {'video': video}
-#     return render(request, 'video_player.html', context)
