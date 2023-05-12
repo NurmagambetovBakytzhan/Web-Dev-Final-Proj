@@ -35,7 +35,7 @@
       <ul>
         <li *ngFor="let video of movieDetails?.videos">
           <video controls>
-            <source src="http://localhost:8000/{{ video.file }}" type="video/mp4">
+            <source src="http://localhost:9111{{ video.file }}" type="video/mp4">
           </video>
         </li>
       </ul>
@@ -47,7 +47,7 @@
       <h2>Images</h2>
       <ul>
         <li *ngFor="let image of movieDetails?.images">
-          <img src="http://localhost:8000/{{ image.file }}/" height="200px">
+          <img src="http://localhost:9111{{ image.file }}/" height="200px">
         </li>
       </ul>
     </div>
